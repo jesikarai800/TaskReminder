@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vhandar Grocery App Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+</head>
+<body class="bg-gray-100 font-[Poppins] flex justify-center items-center min-h-screen">
+
+<!-- LOGIN CARD -->
+<div class="bg-white rounded-xl shadow-2xl w-[420px] p-10 flex flex-col items-center border">
+
+    <!-- LOGO -->
+    <!-- <img src="images/calender.png" alt="App Logo" class="w-16 h-16 mb-4 object-contain"> -->
+
+    <!-- APP NAME -->
+    <h1 class="mt-12 text-2xl font-semibold text-[#0E4D92] mb-1 text-center">Work Reminder</h1>
+    <p class="text-gray-600 mb-6 text-center text-sm font-medium">Log in or Sign Up</p>
+
+    <!-- MOBILE INPUT -->
+    <div class="w-full mb-4">
+        <div class="flex items-center border border-gray-300 rounded-xl px-3 py-4">
+            <span class="text-gray-800 mr-2 text-sm text font-medium">+977</span>
+            <input type="text" id="phone-number" placeholder="Enter mobile number" class="w-full outline-none text-gray-700 text-sm border-l border-gray-400 px-2">
+        </div>
+        <p id="phoneError" class="hidden text-red-500 text-sm mt-1">Phone number error</p>
+    </div>
+
+    <!-- PASSWORD INPUT -->
+
+<div class="w-full mb-6 relative">
+    <!-- Password Input -->
+    <input 
+        type="password" 
+        id="password" 
+        placeholder="Enter Password" 
+        class="w-full text-sm border border-gray-300 rounded-xl px-10 py-4 pr-10 outline-none text-gray-700"
+    >
+
+    <!-- Lock Icon (left) -->
+    <span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-black-400 text-md">
+        lock
+    </span>
+
+    <!-- Toggle Visibility Icon (right) -->
+    <span 
+        id="togglePassword" 
+        class="material-symbols-outlined absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-400 text-md"
+    >
+        visibility_off
+    </span>
+
+    <!-- Password Strength Error -->
+    <p id="passwordStrengthError" class="hidden text-red-500 text-sm mt-1">
+        Password must be 8+ characters with uppercase, lowercase, number, and symbol.
+    </p>
+</div>
+
+
+    <!-- CONTINUE BUTTON -->
+    <button id="continueBtn" class="w-full bg-yellow-500 hover:bg-yellow-400 text-white font-semibold py-3 rounded-lg mb-4">
+        Continue
+    </button>
+
+    <!-- LINKS -->
+    <a href="#" class="text-yellow-500 font-medium mb-2 text-sm">Forget Password?</a>
+    <p class="mt-2 text-gray-500 text-sm text-center">
+        Don't have an Account? <a href="#" class="text-yellow-500 font-medium">Sign Up</a>
+    </p>
+
+</div>
+
+<!-- SCRIPT: PHONE & PASSWORD VALIDATION -->
+<script>
+    const phone = document.getElementById("phone-number");
+    const phoneError = document.getElementById("phoneError");
+    const btn = document.getElementById("continueBtn");
+    const password = document.getElementById("password");
+    const passwordStrengthError = document.getElementById("passwordStrengthError");
+    const togglePassword = document.getElementById("togglePassword");
+
+    // Only numbers for phone
+    phone.addEventListener("input", () => {
+        phone.value = phone.value.replace(/\D/g, "");
+    });
+
+    // Toggle password visibility
+    togglePassword.addEventListener("click", () => {
+        if(password.type === "password"){
+            password.type = "text";
+            togglePassword.textContent = "visibility";
+        } else {
+            password.type = "password";
+            togglePassword.textContent = "visibility_off";
+        }
+    });
+
+    // Validation on Continue
+    btn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // Phone validation
+        if(!phone.value){
+            phoneError.textContent = "Phone number is required";
+            phoneError.classList.remove("hidden");
+        }
+        else if (phone.value.length != 10){
+            phoneError.textContent = "Phone number must be exactly 10 digits";
+            phoneError.classList.remove("hidden");
+        } else{
+            phoneError.classList.add("hidden");
+        }
+
+        // Password validation
+        const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+        if(password.value.trim() === ""){
+            passwordStrengthError.textContent = "Password is required";
+            passwordStrengthError.classList.remove("hidden");
+        }
+        else if (!strongPassword.test(password.value)){
+            passwordStrengthError.textContent = "Password must be 8+ chars with uppercase, lowercase, number, and symbol.";
+            passwordStrengthError.classList.remove("hidden");
+        } else{
+            passwordStrengthError.classList.add("hidden");
+        }
+    });
+</script>
+
+</body>
+</html>

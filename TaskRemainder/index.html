@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home Page</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+  <style>
+    /* Animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+    .fade-in.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-800 pt-24">
+
+<!-- ================= HEADER ================= -->
+<header class="fixed top-0 w-full border-b border-gray-300 bg-white z-40">
+  <div class="flex justify-between items-center px-10 py-6">
+    <h1 class="text-xl text-green-800 font-bold">Work Reminder</h1>
+
+    <nav class="hidden md:flex space-x-6 text-md">
+      <a href="#" class="nav-link text-gray-800 hover:text-yellow-500">Home</a>
+      <a href="#" class="nav-link text-gray-800 hover:text-yellow-500">About Us</a>
+      <a href="#" class="nav-link text-gray-800 hover:text-yellow-500">Add Task</a>
+    </nav>
+
+    <div class="flex gap-2">
+      <button id="loginBtn" class="px-6 py-2 border border-gray-800 rounded hover:bg-green-800 hover:text-white">
+        Login
+      </button>
+      <button id="signupBtn" class="px-4 py-2 border border-green-800 rounded bg-green-800 text-white">
+        Sign Up
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="flex flex-col md:flex-row items-center px-10 py-20 gap-10">
+  <div class="md:w-1/2 space-y-6">
+    <h2 class="text-4xl font-bold">Organize work <br> Coordinate teams</h2>
+    <p class="text-gray-600 max-w-md">
+      Manage group tasks, assign responsibilities, and get timely reminders so your entire team stays on track whether you’re working together or remotely.
+    </p>
+    <button id="ctaBtn" class="bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-black">
+      Find out more
+    </button>
+  </div>
+
+  <div class="md:w-1/2 flex justify-center">
+    <div class="w-72 h-72 bg-lime-100 rounded-full flex items-center justify-center">
+      <img src="images/landing.png" alt="Landing" class="w-60 h-60 object-contain">
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="px-10 py-16 text-center">
+  <h3 class="text-2xl font-semibold mb-4">New approach to scheduling tasks</h3>
+  <p class="text-gray-600 max-w-xl mx-auto mb-12">Everything you need to manage your time.</p>
+
+  <div class="grid md:grid-cols-3 gap-10">
+    <div class="feature fade-in space-y-4">
+      <div class="w-14 h-14 bg-lime-200 rounded-full flex items-center justify-center mx-auto">
+        <span class="material-symbols-outlined">calendar_month</span>
+      </div>
+      <h4 class="font-semibold text-lg">Intuitive Calendar</h4>
+      <p class="text-gray-600 text-sm">Easy task management.</p>
+    </div>
+
+    <div class="feature fade-in space-y-4">
+      <div class="w-14 h-14 bg-lime-200 rounded-full flex items-center justify-center mx-auto">
+        <span class="material-symbols-outlined">computer</span>
+      </div>
+      <h4 class="font-semibold text-lg">Cross Platform</h4>
+      <p class="text-gray-600 text-sm">Works on all devices.</p>
+    </div>
+
+    <div class="feature fade-in space-y-4">
+      <div class="w-14 h-14 bg-lime-200 rounded-full flex items-center justify-center mx-auto">
+        <span class="material-symbols-outlined">add_task</span>
+      </div>
+      <h4 class="font-semibold text-lg">Quick Add</h4>
+      <p class="text-gray-600 text-sm">Add tasks in seconds without leaving your workflow.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MODAL ================= -->
+<div id="modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+  <div class="bg-white w-[350px] rounded-xl p-6 relative">
+    <button id="closeModal" class="absolute top-3 right-3 text-gray-400 hover:text-black">✕</button>
+    <h3 id="modalTitle" class="text-xl font-semibold mb-4">Login</h3>
+
+    <form id="authForm" class="space-y-4">
+      <input type="email" id="email" placeholder="Email" class="w-full border rounded-lg px-3 py-2">
+      <input type="password" id="password" placeholder="Password" class="w-full border rounded-lg px-3 py-2">
+      <button type="submit" class="w-full bg-gray-900 text-white py-2 rounded-lg hover:bg-black">Continue</button>
+      <p id="formMsg" class="text-sm text-red-500 hidden"></p>
+    </form>
+  </div>
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+  // CTA Button Alert
+  document.getElementById("ctaBtn").addEventListener("click", () => {
+    alert("Thanks for your interest!");
+  });
+
+  // Nav Active Link
+  const navLinks = document.querySelectorAll(".nav-link");
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks.forEach(l => l.classList.remove("font-bold", "text-black"));
+      link.classList.add("font-bold", "text-black");
+    });
+  });
+
+  // Features Fade-In
+  const features = document.querySelectorAll(".feature");
+  window.addEventListener("scroll", () => {
+    features.forEach(feature => {
+      if (feature.getBoundingClientRect().top < window.innerHeight - 100) {
+        feature.classList.add("show");
+      }
+    });
+  });
+
+  // Modal Logic
+  const modal = document.getElementById("modal");
+  const loginBtn = document.getElementById("loginBtn");
+  const signupBtn = document.getElementById("signupBtn");
+  const closeModal = document.getElementById("closeModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const authForm = document.getElementById("authForm");
+  const formMsg = document.getElementById("formMsg");
+
+  let mode = "login";
+
+  loginBtn.onclick = () => openModal("login");
+  signupBtn.onclick = () => openModal("signup");
+
+  function openModal(type) {
+    mode = type;
+    modalTitle.innerText = type === "login" ? "Login" : "Sign Up";
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+  }
+
+  closeModal.onclick = () => {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    authForm.reset();
+    formMsg.classList.add("hidden");
+  };
+
+  authForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const emailVal = document.getElementById("email").value.trim();
+    const passwordVal = document.getElementById("password").value.trim();
+
+    if (!emailVal || !passwordVal) {
+      formMsg.innerText = "All fields are required!";
+      formMsg.classList.remove("hidden");
+      return;
+    }
+    if (passwordVal.length < 6) {
+      formMsg.innerText = "Password must be at least 6 characters!";
+      formMsg.classList.remove("hidden");
+      return;
+    }
+
+    alert(`${mode === "login" ? "Logged in" : "Account created"} successfully 🎉`);
+    closeModal.click();
+  });
+</script>
+
+</body>
+</html>
